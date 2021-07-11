@@ -3,7 +3,10 @@ import { GetStaticProps } from 'next';
 import styles from '../styles/Home.module.css';
 
 export default function Home(props) {
-  console.log(props.data);
+  const data = props.data;
+
+  const formatPercent = (number: number) => `${new Number(number).toFixed(2)}%`;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +14,47 @@ export default function Home(props) {
         <link rel="icon" href="/cryptocurrency-log.jpeg" />
       </Head>
 
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <div className={styles.title}>時価総額トップ100のコイン</div>
+        <div className={styles.grid}>
+          <table className={styles.table}>
+            <thead>
+              <tr className={styles.table_header}>
+                <th className={styles.table_header_normal}>Rank</th>
+                <th className={styles.table_header_currency}>通貨</th>
+                <th className={styles.table_header_normal}>価格</th>
+                <th className={styles.table_header_normal}>24H</th>
+                <th className={styles.table_header_normal}>7D</th>
+                <th className={styles.table_header_normal}>時価総額</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((coin: any) => (
+                <tr key={coin.id} className={styles.table_body}>
+                  <td className={styles.rank}>{coin.market_cap_rank}</td>
+                  <td className={styles.currency}>
+                    <img src={coin.image} />
+                    <p className={styles.coin_name}>{coin.name}</p>
+                    <p className={styles.symbol}>{coin.symbol.toUpperCase()}</p>
+                  </td>
+                  <td className={styles.table_body_normal}>
+                    ¥{coin.current_price.toLocaleString()}
+                  </td>
+                  <td className={styles.table_body_normal}>
+                    {formatPercent(coin.price_change_percentage_24h)}
+                  </td>
+                  <td className={styles.table_body_normal}>
+                    {formatPercent(coin.price_change_percentage_7d_in_currency)}
+                  </td>
+                  <td className={styles.table_body_normal}>
+                    ¥{coin.market_cap.toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
 
       <footer className={styles.footer}>
         <a href="https://twitter.com/taisei_ide">
@@ -25,9 +68,9 @@ export default function Home(props) {
   );
 }
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
-    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=jpy&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=jpy&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=7d'
   );
   const data: {} = await res.json();
 
