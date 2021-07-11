@@ -27,12 +27,17 @@
 
 .footer img {
   margin-left: 0.5rem;
+  width: 20px;
 }
 
 .footer a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.footer span {
+  font-weight: 700;
 }
 
 .title a {
