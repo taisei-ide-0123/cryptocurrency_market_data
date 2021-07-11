@@ -2,8 +2,38 @@ import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import styles from '../styles/Home.module.css';
 
-export default function Home(props) {
-  const data = props.data;
+export type CryptoCurrencyType = {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap: number;
+  market_cap_rank: number;
+  fully_diluted_valuation: number;
+  total_volume: number;
+  high_24h: number;
+  low_24h: number;
+  price_change_24h: number;
+  price_change_percentage_24h: number;
+  market_cap_change_24h: number;
+  market_cap_change_percentage_24h: number;
+  circulating_supply: number;
+  total_supply: number;
+  max_supply: number;
+  ath: number;
+  ath_change_percentage: number;
+  ath_date: string;
+  atl: number;
+  atl_change_percentage: number;
+  atl_date: string;
+  roi: null;
+  last_updated: string;
+  price_change_percentage_7d_in_currency: number;
+};
+
+export default function Home(props: { data: object[] }) {
+  const data: object[] = props.data;
 
   const formatPercent = (number: number) => `${new Number(number).toFixed(2)}%`;
 
@@ -29,7 +59,7 @@ export default function Home(props) {
               </tr>
             </thead>
             <tbody>
-              {data.map((coin: any) => (
+              {data.map((coin: CryptoCurrencyType) => (
                 <tr key={coin.id} className={styles.table_body}>
                   <td className={styles.rank}>{coin.market_cap_rank}</td>
                   <td className={styles.currency}>
