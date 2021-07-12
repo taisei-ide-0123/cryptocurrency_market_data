@@ -33,8 +33,8 @@ export type CryptoCurrencyType = {
   price_change_percentage_7d_in_currency: number;
 };
 
-export default function Home(props: { data: object[] }) {
-  const data: object[] = props.data;
+export default function Home(props: { cryptocurrencies: object[] }) {
+  const cryptocurrencies: object[] = props.cryptocurrencies;
 
   const formatPercent = (number: number) => `${new Number(number).toFixed(2)}%`;
 
@@ -60,7 +60,7 @@ export default function Home(props: { data: object[] }) {
               </tr>
             </thead>
             <tbody>
-              {data.map((coin: CryptoCurrencyType) => (
+              {cryptocurrencies.map((coin: CryptoCurrencyType) => (
                 <tr key={coin.id} className={styles.table_body}>
                   <td className={styles.rank}>{coin.market_cap_rank}</td>
                   <td className={styles.currency}>
@@ -105,12 +105,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=jpy&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=7d'
   );
-  const data: {} = await res.json();
+  const cryptocurrencies: {} = await res.json();
 
   try {
     return {
       props: {
-        data,
+        cryptocurrencies,
       },
     };
   } catch (error) {

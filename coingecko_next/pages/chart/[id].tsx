@@ -5,8 +5,8 @@ import { Line } from 'react-chartjs-2';
 type Color = string;
 
 export type Props = {
-  data: Market;
-  crypto: string;
+  cryptocurrency: Market;
+  crypto_name: string;
 };
 
 export type Market = {
@@ -43,13 +43,13 @@ export type Chart = {
 };
 
 export default function Chart(props: Props) {
-  const market_data: Market = props.data;
-  const crypto_name: string = props.crypto;
+  const cryptocurrency: Market = props.cryptocurrency;
+  const crypto_name: string = props.crypto_name;
   const seven_days: string[] = [];
   const crypto_price: [] = [];
 
   for (let i = 0; i < 8; i++) {
-    const date: Date = new Date(market_data.prices[i][0]);
+    const date: Date = new Date(cryptocurrency.prices[i][0]);
     const simple_date: string =
       date.getFullYear() +
       '/' +
@@ -64,7 +64,7 @@ export default function Chart(props: Props) {
       date.getSeconds();
     seven_days[i] = simple_date;
 
-    const price = market_data.prices[i][1];
+    const price = cryptocurrency.prices[i][1];
     crypto_price[i] = price;
   }
 
@@ -112,15 +112,14 @@ export async function getServerSideProps({ query }) {
   const res = await fetch(
     `https://api.coingecko.com/api/v3/coins/${query.id}/market_chart?vs_currency=jpy&days=7&interval=daily`
   );
-  const data: {} = await res.json();
-  const crypto: string = query.id;
-  // console.log(crypto)
+  const cryptocurrency: {} = await res.json();
+  const crypto_name: string = query.id;
 
   try {
     return {
       props: {
-        data,
-        crypto,
+        cryptocurrency,
+        crypto_name,
       },
     };
   } catch (error) {
