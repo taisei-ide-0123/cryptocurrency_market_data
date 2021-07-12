@@ -56,7 +56,7 @@ export default function Home(props: { cryptocurrencies: object[] }) {
                 <th className={styles.table_header_normal}>価格</th>
                 <th className={styles.table_header_normal}>24H</th>
                 <th className={styles.table_header_normal}>7D</th>
-                <th className={styles.table_header_normal}>時価総額</th>
+                <th className={styles.table_header_market_cap}>時価総額</th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +79,7 @@ export default function Home(props: { cryptocurrencies: object[] }) {
                   <td className={styles.table_body_normal}>
                     {formatPercent(coin.price_change_percentage_7d_in_currency)}
                   </td>
-                  <td className={styles.table_body_normal}>
+                  <td className={styles.table_body_market_cap}>
                     ¥{coin.market_cap.toLocaleString()}
                   </td>
                 </tr>
