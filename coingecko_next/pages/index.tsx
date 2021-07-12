@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import styles from '../styles/Home.module.css';
 
@@ -64,7 +65,9 @@ export default function Home(props: { data: object[] }) {
                   <td className={styles.rank}>{coin.market_cap_rank}</td>
                   <td className={styles.currency}>
                     <img src={coin.image} />
-                    <p className={styles.coin_name}>{coin.name}</p>
+                    <Link href={`/chart/${coin.id}`}>
+                      <p className={styles.coin_name}>{coin.name}</p>
+                    </Link>
                     <p className={styles.symbol}>{coin.symbol.toUpperCase()}</p>
                   </td>
                   <td className={styles.table_body_normal}>
