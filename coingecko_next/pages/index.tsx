@@ -46,7 +46,15 @@ export default function Home(props: { cryptocurrencies: object[] }) {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.title}>時価総額トップ100のコイン</div>
+        <div className={styles.header}>
+          <div className={styles.title}>時価総額トップ100のコイン</div>
+          <div className={styles.input_wrap}>
+            <input
+              className={styles.input}
+              placeholder="Search for crypto..."
+            />
+          </div>
+        </div>
         <div className={styles.grid}>
           <table className={styles.table}>
             <thead>
