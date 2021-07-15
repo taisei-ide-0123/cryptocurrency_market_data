@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { GetStaticProps } from 'next';
+import React, { useState } from 'react';
 import styles from '../styles/Home.module.css';
 
 export type CryptoCurrencyType = {
@@ -38,6 +39,15 @@ export default function Home(props: { cryptocurrencies: object[] }) {
 
   const formatPercent = (number: number) => `${new Number(number).toFixed(2)}%`;
 
+  const [cryptocurrency, setCryptocurrency] = useState('');
+  console.log(cryptocurrency);
+
+  const getCryptocurrency = (event: any) => {
+    if (event.key === 'Enter') {
+      setCryptocurrency(event.target.value);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -52,6 +62,7 @@ export default function Home(props: { cryptocurrencies: object[] }) {
             <input
               className={styles.input}
               placeholder="Search for crypto..."
+              onKeyPress={getCryptocurrency}
             />
           </div>
         </div>
