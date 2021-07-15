@@ -40,11 +40,77 @@ export default function Home(props: { cryptocurrencies: object[] }) {
   const formatPercent = (number: number) => `${new Number(number).toFixed(2)}%`;
 
   const [cryptocurrency, setCryptocurrency] = useState('');
-  console.log(cryptocurrency);
 
   const getCryptocurrency = (event: any) => {
     if (event.key === 'Enter') {
       setCryptocurrency(event.target.value);
+    }
+  };
+
+  const cryptocurrenciesList = () => {
+    if (cryptocurrency === '') {
+      return (
+        <tbody>
+          {cryptocurrencies.map((coin: CryptoCurrencyType) => (
+            <tr key={coin.id} className={styles.table_body}>
+              <td className={styles.rank}>{coin.market_cap_rank}</td>
+              <td className={styles.currency}>
+                <img src={coin.image} />
+                <Link href={`/chart/${coin.id}`}>
+                  <p className={styles.coin_name}>{coin.name}</p>
+                </Link>
+                <p className={styles.symbol}>{coin.symbol.toUpperCase()}</p>
+              </td>
+              <td className={styles.table_body_normal}>
+                ¥{coin.current_price.toLocaleString()}
+              </td>
+              <td className={styles.table_body_normal}>
+                {formatPercent(coin.price_change_percentage_24h)}
+              </td>
+              <td className={styles.table_body_normal}>
+                {formatPercent(coin.price_change_percentage_7d_in_currency)}
+              </td>
+              <td className={styles.table_body_market_cap}>
+                ¥{coin.market_cap.toLocaleString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      );
+    } else {
+      return (
+        <tbody>
+          {cryptocurrencies.map((coin: CryptoCurrencyType) => {
+            if (coin.id === cryptocurrency) {
+              <tr key={coin.id} className={styles.table_body}>
+                {console.log(coin)}
+                <td className={styles.rank}>{coin.market_cap_rank}</td>
+                <td className={styles.currency}>
+                  <img src={coin.image} />
+                  <Link href={`/chart/${coin.id}`}>
+                    <p className={styles.coin_name}>{coin.name}</p>
+                  </Link>
+                  <p className={styles.symbol}>{coin.symbol.toUpperCase()}</p>
+                </td>
+                <td className={styles.table_body_normal}>
+                  ¥{coin.current_price.toLocaleString()}
+                </td>
+                <td className={styles.table_body_normal}>
+                  {formatPercent(coin.price_change_percentage_24h)}
+                </td>
+                <td className={styles.table_body_normal}>
+                  {formatPercent(coin.price_change_percentage_7d_in_currency)}
+                </td>
+                <td className={styles.table_body_market_cap}>
+                  ¥{coin.market_cap.toLocaleString()}
+                </td>
+              </tr>;
+            } else {
+              <>お探しのコインはありませんm(- -)m</>;
+            }
+          })}
+        </tbody>
+      );
     }
   };
 
@@ -78,32 +144,7 @@ export default function Home(props: { cryptocurrencies: object[] }) {
                 <th className={styles.table_header_market_cap}>時価総額</th>
               </tr>
             </thead>
-            <tbody>
-              {cryptocurrencies.map((coin: CryptoCurrencyType) => (
-                <tr key={coin.id} className={styles.table_body}>
-                  <td className={styles.rank}>{coin.market_cap_rank}</td>
-                  <td className={styles.currency}>
-                    <img src={coin.image} />
-                    <Link href={`/chart/${coin.id}`}>
-                      <p className={styles.coin_name}>{coin.name}</p>
-                    </Link>
-                    <p className={styles.symbol}>{coin.symbol.toUpperCase()}</p>
-                  </td>
-                  <td className={styles.table_body_normal}>
-                    ¥{coin.current_price.toLocaleString()}
-                  </td>
-                  <td className={styles.table_body_normal}>
-                    {formatPercent(coin.price_change_percentage_24h)}
-                  </td>
-                  <td className={styles.table_body_normal}>
-                    {formatPercent(coin.price_change_percentage_7d_in_currency)}
-                  </td>
-                  <td className={styles.table_body_market_cap}>
-                    ¥{coin.market_cap.toLocaleString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            {cryptocurrenciesList()}
           </table>
         </div>
       </main>
